@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { Neo4jModule } from './neo4j/neo4j.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Neo4jUserModule } from './neo4j-user/neo4j-user.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { upperDirectiveTransformer } from './schema/directives/upper-case.directive';
 
@@ -22,5 +22,11 @@ import { upperDirectiveTransformer } from './schema/directives/upper-case.direct
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  static port: number | string;
+
+  constructor(private readonly _configService: ConfigService) {
+    AppModule.port = this._configService.get('PORT');
+  }
+}
 
