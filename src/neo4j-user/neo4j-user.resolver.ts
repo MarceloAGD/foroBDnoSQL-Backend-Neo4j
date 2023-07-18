@@ -12,7 +12,7 @@ export class Neo4jUserResolver {
     }
 
     @Query()
-    async getUserNeo4j(@Args('id') id: number): Promise<User>{
-        return await this.userService.getUserNeo4j(id);
+    async getUserNeo4j(@Args('email') email: string): Promise<User>{
+        return await this.userService.getUserNeo4j(email);
     }
 }

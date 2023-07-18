@@ -10,7 +10,7 @@ export class Neo4jUserService {
         return await this.userRepository.createUserNeo4j(userInput)
     }
 
-    async getUserNeo4j(id: number): Promise<User>{
-        return await this.userRepository.getUserNeo4j(id);
+    async getUserNeo4j(email: string): Promise<User>{
+        return await this.userRepository.getUserNeo4j(email);
     }
 }

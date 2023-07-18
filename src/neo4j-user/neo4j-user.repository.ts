@@ -27,13 +27,33 @@ export class Neo4jUserRepository{
             };
           }
     }
+    async addFriend(emailUser1: string, emailUser2: string){
+      const query = await this.queryRepository
+      .initQuery()
+      .raw(
+        `
+        MATCH (user1:User {email: '${emailUser1}'}), (user2:User {email: '${emailUser2}'})
+        CREATE (user1)-[:FRIEND]->(user2)
+        `
+      )
+      .run();
+      if (query?.length > 0) {
+        const {
+          user: { identity, properties },
+        } = query[0];
+        return {
+          id: identity,
+          ...properties,
+        };
+      }
+    }
 
-    async getUserNeo4j(id: number): Promise<User>{
+    async getUserNeo4j(email: string): Promise<User>{
       const query = await this.queryRepository
       .initQuery()
       .raw(
         `MATCH (user: User)
-        WHERE ID(user) = ${id}
+        WHERE email(user) = ${email}
         RETURN user`,
       )
       .run();

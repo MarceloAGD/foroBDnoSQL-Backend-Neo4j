@@ -48,7 +48,7 @@ export abstract class IMutation {
 }
 
 export abstract class IQuery {
-    abstract getUserNeo4j(id: number): User | Promise<User>;
+    abstract getUserNeo4j(email: string): User | Promise<User>;
 }
 
 type Nullable<T> = T | null;
