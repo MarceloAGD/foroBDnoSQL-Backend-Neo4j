@@ -1,0 +1,41 @@
+input UserInput{
+    nickname: String
+    email: String
+    password: String
+    language: String
+    country: String
+}
+type User {
+    id: Int!
+    nickname: String!
+    email: String!
+    password: String!
+    language: String
+    country: String
+    friend: [User!]
+}
+
+type Tag{
+    name: String!
+}
+
+type Post {
+    title: String!
+    likes: [User!]
+    dislikes: [User!]
+    tags: [Tag!]
+}
+
+type Community{
+    name: String!
+    members: [User!]
+    tags: [Tag!]
+}
+
+type Mutation{
+    createUserNeo4j(userInput: UserInput!): User!
+}
+
+type Query{
+    getUserNeo4j(id: Int!): User!
+}
