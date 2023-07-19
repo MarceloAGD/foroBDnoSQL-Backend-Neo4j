@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { QueryRepository } from 'src/neo4j/query.repository';
 import { User, UserInput } from 'src/schema/graphql';
 import * as bcrypt from 'bcryptjs';
-import { prependListener } from 'process';
 
 @Injectable()
 export class Neo4jUserRepository {
@@ -11,13 +10,31 @@ export class Neo4jUserRepository {
   async createUserNeo4j(userInput: UserInput) {
     const { nickname, email, password, language, country } = userInput;
     const hashedPassword = await bcrypt.hash(password, 10);
+  
+    // Verificar si ya existe un usuario con el mismo correo electrónico
+    const userExists = await this.queryRepository
+      .initQuery()
+      .raw(
+        `
+        MATCH (user:User {email: "${email}"})
+        RETURN user
+        `,
+      )
+      .run();
+  
+    if (userExists?.length > 0) {
+      throw new Error('El usuario con este correo electrónico ya existe.');
+    }
+  
+    // Si no existe, crear el nuevo usuario
     const query = await this.queryRepository
       .initQuery()
       .raw(
         `CREATE (user:User {nickname: "${nickname}", email: "${email}", password: "${hashedPassword}", language: "${language}", country: "${country}"})
-        return user`,
+        RETURN user`,
       )
       .run();
+  
     if (query?.length > 0) {
       const {
         user: { identity, properties },
