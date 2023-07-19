@@ -67,7 +67,7 @@ export class Neo4jUserRepository {
         RETURN user`,
       )
       .run();
-
+  
     if (query?.length > 0) {
       const {
         user: { identity, properties },
@@ -76,6 +76,8 @@ export class Neo4jUserRepository {
         id: identity,
         ...properties,
       };
+    } else {
+      throw new Error('Usuario no encontrado.'); // Lanzar una excepción si no se encontró el usuario
     }
   }
 
