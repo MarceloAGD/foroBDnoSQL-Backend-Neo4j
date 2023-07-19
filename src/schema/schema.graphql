@@ -1,9 +1,9 @@
 input UserInput{
-    nickname: String
-    email: String
-    password: String
-    language: String
-    country: String
+    nickname: String!
+    email: String!
+    password: String!
+    language: String!
+    country: String!
 }
 type User {
     id: Int!
@@ -20,22 +20,21 @@ type Tag{
 }
 
 type Post {
+    id: Int!
     title: String!
-    likes: [User!]
-    dislikes: [User!]
-    tags: [Tag!]
 }
 
 type Community{
+    id: Int!
     name: String!
-    members: [User!]
-    tags: [Tag!]
 }
 
 type Mutation{
     createUserNeo4j(userInput: UserInput!): User!
     addFriendNeo4j(emailUser1: String!, emailUser2: String!): Boolean!
     createTagNeo4j(name: String!): Tag!
+    createPostNeo4j(title: String!): Post!
+    createCommNeo4j(name: String!): Community!
 }
 
 type Query{
