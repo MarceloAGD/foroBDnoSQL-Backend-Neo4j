@@ -23,7 +23,6 @@ export class User {
     password: string;
     language?: Nullable<string>;
     country?: Nullable<string>;
-    friend?: Nullable<User[]>;
 }
 
 export class Tag {
@@ -46,11 +45,13 @@ export class Community {
 export abstract class IMutation {
     abstract createUserNeo4j(userInput: UserInput): User | Promise<User>;
 
-    abstract addFriendNeo4j(emailUser1: string, emailUser2: string): User | Promise<User>;
+    abstract addFriendNeo4j(emailUser1: string, emailUser2: string): boolean | Promise<boolean>;
 }
 
 export abstract class IQuery {
     abstract getUserNeo4j(email: string): User | Promise<User>;
+
+    abstract getFriendsNeo4j(email: string): User[] | Promise<User[]>;
 }
 
 type Nullable<T> = T | null;

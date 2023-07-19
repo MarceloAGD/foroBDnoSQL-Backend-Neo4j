@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { QueryRepository } from 'src/neo4j/query.repository';
 import { User, UserInput } from 'src/schema/graphql';
 import * as bcrypt from 'bcryptjs';
+import { prependListener } from 'process';
 
 @Injectable()
 export class Neo4jUserRepository {
@@ -27,17 +28,18 @@ export class Neo4jUserRepository {
       };
     }
   }
-  async addFriend(emailUser1: string, emailUser2: string): Promise<boolean>{
-    await this.queryRepository
+  async addFriend(emailUser1: string, emailUser2: string): Promise<boolean> {
+    const query = await this.queryRepository
       .initQuery()
       .raw(
         `MATCH (user1:User {email: "${emailUser1}"}), (user2:User {email: "${emailUser2}"})
+        WHERE NOT EXISTS((user1)-[:FRIEND]->(user2))
         CREATE (user1)-[:FRIEND]->(user2)
-        RETURN user1
-        `,
+        CREATE (user2)-[:FRIEND]->(user1)  
+        RETURN user1, user2`,
       )
       .run();
-      return true;
+     return !!query// Returns true if the query result is truthy (non-null).
   }
 
   async getUserNeo4j(email: string): Promise<User> {
@@ -58,5 +60,31 @@ export class Neo4jUserRepository {
         ...properties,
       };
     }
+  }
+
+  async getFriendsNeo4j(email: string): Promise<User[]> {
+    const query = await this.queryRepository
+    .initQuery()
+    .raw(
+      `MATCH (user1:User {email: $email})-[:FRIEND]->(friend:User)-[:FRIEND]->(friendOfFriend:User)
+      WHERE friendOfFriend <> user1  
+      RETURN DISTINCT friendOfFriend`,
+      {email}
+    )
+    .run();
+
+  if (query?.length > 0) {
+    return query.map((result: any) => {
+      const {
+        friendOfFriend: { identity, properties },
+      } = result;
+      return {
+        id: identity,
+        ...properties,
+      };
+    });
+  }
+
+  return [];
   }
 }

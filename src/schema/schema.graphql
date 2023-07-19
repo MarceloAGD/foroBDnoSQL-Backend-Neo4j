@@ -12,7 +12,6 @@ type User {
     password: String!
     language: String
     country: String
-    friend: [User!]
 }
 
 type Tag{
@@ -39,5 +38,5 @@ type Mutation{
 
 type Query{
     getUserNeo4j(email: String!): User!
-    
+    getFriendsNeo4j(email: String!): [User!]!
 }
