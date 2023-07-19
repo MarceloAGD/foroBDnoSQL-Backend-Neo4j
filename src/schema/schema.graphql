@@ -34,8 +34,10 @@ type Community{
 
 type Mutation{
     createUserNeo4j(userInput: UserInput!): User!
+    addFriendNeo4j(emailUser1: String!, emailUser2: String!): Boolean!
 }
 
 type Query{
     getUserNeo4j(email: String!): User!
+    
 }

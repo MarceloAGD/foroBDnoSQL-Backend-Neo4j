@@ -45,6 +45,8 @@ export class Community {
 
 export abstract class IMutation {
     abstract createUserNeo4j(userInput: UserInput): User | Promise<User>;
+
+    abstract addFriendNeo4j(emailUser1: string, emailUser2: string): User | Promise<User>;
 }
 
 export abstract class IQuery {

@@ -3,7 +3,7 @@ import { Neo4jModule } from './neo4j/neo4j.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Neo4jUserModule } from './neo4j-user/neo4j-user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import {ApolloFederationDriver,ApolloFederationDriverConfig,} from '@nestjs/apollo';
 import { upperDirectiveTransformer } from './schema/directives/upper-case.directive';
 
 
@@ -11,11 +11,10 @@ import { upperDirectiveTransformer } from './schema/directives/upper-case.direct
   imports: [
     Neo4jUserModule,
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
       typePaths: ['./**/*.graphql'],
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
-      installSubscriptionHandlers: true,
     }),
     Neo4jModule.forRootAsync(),
   ],
