@@ -16,6 +16,15 @@ export class UserInput {
     country: string;
 }
 
+export class PostInput {
+    title: string;
+    tag: Nullable<TagInput>[];
+}
+
+export class TagInput {
+    name: string;
+}
+
 export class User {
     id: number;
     nickname: string;
@@ -47,7 +56,7 @@ export abstract class IMutation {
 
     abstract createTagNeo4j(name: string): Tag | Promise<Tag>;
 
-    abstract createPostNeo4j(title: string): Post | Promise<Post>;
+    abstract createPostNeo4j(postInput: PostInput): Post | Promise<Post>;
 
     abstract createCommNeo4j(name: string): Community | Promise<Community>;
 }

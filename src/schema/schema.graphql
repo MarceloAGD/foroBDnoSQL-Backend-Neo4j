@@ -5,6 +5,14 @@ input UserInput{
     language: String!
     country: String!
 }
+input PostInput{
+    title: String!
+    tag: [TagInput]!
+}
+
+input TagInput{
+    name: String!
+}
 type User {
     id: Int!
     nickname: String!
@@ -33,7 +41,7 @@ type Mutation{
     createUserNeo4j(userInput: UserInput!): User!
     addFriendNeo4j(emailUser1: String!, emailUser2: String!): Boolean!
     createTagNeo4j(name: String!): Tag!
-    createPostNeo4j(title: String!): Post!
+    createPostNeo4j(postInput: PostInput!): Post!
     createCommNeo4j(name: String!): Community!
 }
 
