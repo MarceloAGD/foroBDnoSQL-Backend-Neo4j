@@ -21,6 +21,12 @@ export class PostInput {
     tag: Nullable<TagInput>[];
 }
 
+export class CommInput {
+    name: string;
+    author: string;
+    tag: Nullable<TagInput>[];
+}
+
 export class TagInput {
     name: string;
 }
@@ -52,13 +58,15 @@ export class Community {
 export abstract class IMutation {
     abstract createUserNeo4j(userInput: UserInput): User | Promise<User>;
 
-    abstract addFriendNeo4j(emailUser1: string, emailUser2: string): boolean | Promise<boolean>;
-
     abstract createTagNeo4j(name: string): Tag | Promise<Tag>;
 
     abstract createPostNeo4j(postInput: PostInput): Post | Promise<Post>;
 
-    abstract createCommNeo4j(name: string): Community | Promise<Community>;
+    abstract createCommNeo4j(commInput: CommInput): Community | Promise<Community>;
+
+    abstract addFriendNeo4j(emailUser1: string, emailUser2: string): boolean | Promise<boolean>;
+
+    abstract addMemberNeo4j(email: string, comm: string): boolean | Promise<boolean>;
 }
 
 export abstract class IQuery {
