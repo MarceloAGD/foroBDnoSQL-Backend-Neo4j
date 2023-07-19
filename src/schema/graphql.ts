@@ -26,6 +26,7 @@ export class User {
 }
 
 export class Tag {
+    id: number;
     name: string;
 }
 
@@ -46,6 +47,8 @@ export abstract class IMutation {
     abstract createUserNeo4j(userInput: UserInput): User | Promise<User>;
 
     abstract addFriendNeo4j(emailUser1: string, emailUser2: string): boolean | Promise<boolean>;
+
+    abstract createTagNeo4j(name: string): Tag | Promise<Tag>;
 }
 
 export abstract class IQuery {
