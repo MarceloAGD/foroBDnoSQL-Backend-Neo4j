@@ -13,7 +13,7 @@ export class Neo4jPostRepository {
       .initQuery()
       .raw(
         `
-        MERGE (post:Post {title: "${title}"})
+        CREATE (post:Post {title: "${title}"})
         WITH post
         UNWIND $tags AS tag
         MERGE (t:Tag {name: tag.name})
