@@ -29,4 +29,8 @@ export class Neo4jPostService {
     async deletePostNeo4j(postId: string): Promise<boolean>{
         return await this.postRepository.deletePostNeo4j(postId);
     }
+
+    async getPostSameTagNeo4j(postId: string): Promise<Post[]>{
+        return await this.postRepository.getPostSameTagsNeo4j(postId);
+    }
 }

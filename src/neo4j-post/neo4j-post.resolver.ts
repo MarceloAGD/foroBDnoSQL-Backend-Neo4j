@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Neo4jPostService } from './neo4j-post.service';
 import { Post, PostInput } from 'src/schema/graphql';
 
@@ -24,5 +24,10 @@ export class Neo4jPostResolver {
     @Mutation(() => Boolean)
     async deletePostNeo4j(@Args('postId') postId: string): Promise<boolean>{
         return await this.postService.deletePostNeo4j(postId);
+    }
+
+    @Query(()=> [Post])
+    async getPostSameTagNeo4j(@Args('postId') postId: string): Promise<Post[]>{
+        return await this.postService.getPostSameTagNeo4j(postId);
     }
 }
