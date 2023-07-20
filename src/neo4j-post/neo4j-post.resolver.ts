@@ -20,4 +20,9 @@ export class Neo4jPostResolver {
     async addDislikePostNeo4j(@Args('postId') postId: string,@Args('email') email: string): Promise<Post>{
         return await this.postService.addDislikePostNeo4j(postId,email);
     }
+
+    @Mutation(() => Boolean)
+    async deletePostNeo4j(@Args('postId') postId: string): Promise<boolean>{
+        return await this.postService.deletePostNeo4j(postId);
+    }
 }

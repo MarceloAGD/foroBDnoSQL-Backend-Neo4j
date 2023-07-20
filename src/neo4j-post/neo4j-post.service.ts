@@ -25,4 +25,8 @@ export class Neo4jPostService {
         }
         return await this.postRepository.eliminatedDislike(postId, email);    
     }
+
+    async deletePostNeo4j(postId: string): Promise<boolean>{
+        return await this.postRepository.deletePostNeo4j(postId);
+    }
 }
