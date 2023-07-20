@@ -17,7 +17,9 @@ export class UserInput {
 }
 
 export class PostInput {
+    id: string;
     title: string;
+    description: string;
     tag: Nullable<TagInput>[];
 }
 
@@ -46,8 +48,9 @@ export class Tag {
 }
 
 export class Post {
-    id: number;
+    id: string;
     title: string;
+    description: string;
 }
 
 export class Community {
@@ -67,6 +70,10 @@ export abstract class IMutation {
     abstract addFriendNeo4j(emailUser1: string, emailUser2: string): boolean | Promise<boolean>;
 
     abstract addMemberNeo4j(email: string, comm: string): boolean | Promise<boolean>;
+
+    abstract addLikePostNeo4j(postId: string, email: string): Post | Promise<Post>;
+
+    abstract addDislikePostNeo4j(postId: string, email: string): Post | Promise<Post>;
 }
 
 export abstract class IQuery {
