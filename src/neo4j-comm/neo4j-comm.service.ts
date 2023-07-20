@@ -12,4 +12,7 @@ export class Neo4jCommService {
     async addMemberNeo4j(email: string, comm: string): Promise<boolean>{
         return await this.commRepository.addMemberNeo4j(email, comm);
     }
+    async deleteCommNeo4j(name: string): Promise<boolean>{
+        return await this.commRepository.deleteCommNeo4j(name)
+    }
 }

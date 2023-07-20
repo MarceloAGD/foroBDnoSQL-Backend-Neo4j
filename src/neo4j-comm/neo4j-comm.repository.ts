@@ -53,4 +53,17 @@ export class Neo4jCommRepository {
       
      return !!query// Returns true if the query result is truthy (non-null).
   }
+
+  async deleteCommNeo4j(name: string): Promise<boolean> {
+    const query = await this.queryRepository
+      .initQuery()
+      .raw(
+        `MATCH (n:Community {name: "${name}"})
+        DETACH DELETE n`,
+      )
+      .run();
+      
+     return !!query// Returns true if the query result is truthy (non-null).
+  }
+
 }

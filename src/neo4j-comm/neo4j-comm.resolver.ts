@@ -15,4 +15,9 @@ export class Neo4jCommResolver {
     async addMemberNeo4j(@Args('email') email: string, @Args('comm') comm: string): Promise<boolean>{
         return await this.commService.addMemberNeo4j(email, comm);
     }
+
+    @Mutation(()=> Boolean)
+    async deleteCommNeo4j(@Args('name') name: string): Promise<Boolean>{
+        return await this.commService.deleteCommNeo4j(name)
+    }
 }
