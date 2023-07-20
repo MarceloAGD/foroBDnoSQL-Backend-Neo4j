@@ -87,6 +87,8 @@ export abstract class IQuery {
     abstract getUserNeo4j(email: string): User | Promise<User>;
 
     abstract getFriendsNeo4j(email: string): User[] | Promise<User[]>;
+
+    abstract getPostSameTagNeo4j(postId: string): Post[] | Promise<Post[]>;
 }
 
 type Nullable<T> = T | null;
