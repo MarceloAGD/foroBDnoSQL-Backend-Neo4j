@@ -10,4 +10,14 @@ export class Neo4jPostResolver {
     async createPostNeo4j(@Args('postInput') postInput: PostInput): Promise<Post>{
         return await this.postService.createPostNeo4j(postInput);
     }
+
+    @Mutation(()=> Post)
+    async addLikePostNeo4j(@Args('postId') postId: string,@Args('email') email: string): Promise<Post>{
+        return await this.postService.addLikePostNeo4j(postId,email);
+    }
+
+    @Mutation(()=> Post)
+    async addDislikePostNeo4j(@Args('postId') postId: string,@Args('email') email: string): Promise<Post>{
+        return await this.postService.addDislikePostNeo4j(postId,email);
+    }
 }

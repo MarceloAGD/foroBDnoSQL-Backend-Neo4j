@@ -9,4 +9,20 @@ export class Neo4jPostService {
     async createPostNeo4j(postInput: PostInput): Promise<Post>{
         return await this.postRepository.createPostNeo4j(postInput);
     }
+
+    async addLikePostNeo4j(postId: string, email: string): Promise<Post>{
+        const verificar = await this.postRepository.likeVerificator(postId, email);
+        if(!verificar){
+            return await this.postRepository.addLikePostNeo4j(postId, email);
+        }
+         return await this.postRepository.eliminatedLike(postId, email);
+    }
+
+    async addDislikePostNeo4j(postId: string, email: string): Promise<Post>{
+        const verificar = await this.postRepository.dislikeVerificator(postId, email);
+        if(!verificar){
+            return await this.postRepository.addDislikePostNeo4j(postId, email);
+        }
+        return await this.postRepository.eliminatedDislike(postId, email);    
+    }
 }
