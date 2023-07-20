@@ -19,14 +19,16 @@ export class UserInput {
 export class PostInput {
     id: string;
     title: string;
+    author?: Nullable<string>;
     description: string;
+    comm?: Nullable<string>;
     tag: Nullable<TagInput>[];
 }
 
 export class CommInput {
     name: string;
-    author: string;
-    tag: Nullable<TagInput>[];
+    author?: Nullable<string>;
+    tag?: Nullable<Nullable<TagInput>[]>;
 }
 
 export class TagInput {
@@ -50,6 +52,7 @@ export class Tag {
 export class Post {
     id: string;
     title: string;
+    comm: string;
     description: string;
 }
 
@@ -74,6 +77,10 @@ export abstract class IMutation {
     abstract addLikePostNeo4j(postId: string, email: string): Post | Promise<Post>;
 
     abstract addDislikePostNeo4j(postId: string, email: string): Post | Promise<Post>;
+
+    abstract deletePostNeo4j(postId: string): boolean | Promise<boolean>;
+
+    abstract delteCommNeo4j(name: string): boolean | Promise<boolean>;
 }
 
 export abstract class IQuery {

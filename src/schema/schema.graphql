@@ -9,14 +9,16 @@ input UserInput{
 input PostInput{
     id: String!
     title: String!
+    author: String
     description: String!
+    comm: String
     tag: [TagInput]!
 }
 
 input CommInput{
     name: String!
-    author: String!
-    tag: [TagInput]!
+    author: String
+    tag: [TagInput]
 }
 
 input TagInput{
@@ -40,6 +42,7 @@ type Tag{
 type Post {
     id: String!
     title: String!
+    comm: String!
     description: String!
 }
 
@@ -57,6 +60,8 @@ type Mutation{
     addMemberNeo4j(email: String!, comm: String!): Boolean!
     addLikePostNeo4j(postId: String!, email: String!): Post!
     addDislikePostNeo4j(postId: String!, email: String!): Post!
+    deletePostNeo4j(postId: String!): Boolean!
+    delteCommNeo4j(name: String!): Boolean!
 }
 
 type Query{
