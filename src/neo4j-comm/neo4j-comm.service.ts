@@ -15,4 +15,8 @@ export class Neo4jCommService {
     async deleteCommNeo4j(name: string): Promise<boolean>{
         return await this.commRepository.deleteCommNeo4j(name)
     }
+
+    async getCommFriendNeo4j(email: string): Promise<Community[]>{
+        return await this.commRepository.getCommFriendsNeo4j(email);
+    }
 }

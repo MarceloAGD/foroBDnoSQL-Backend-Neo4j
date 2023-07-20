@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { QueryRepository } from 'src/neo4j/query.repository';
-import { User, UserInput } from 'src/schema/graphql';
+import { Community, User, UserInput } from 'src/schema/graphql';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()

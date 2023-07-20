@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Neo4jCommService } from './neo4j-comm.service';
 import { CommInput, Community } from 'src/schema/graphql';
 
@@ -19,5 +19,10 @@ export class Neo4jCommResolver {
     @Mutation(()=> Boolean)
     async deleteCommNeo4j(@Args('name') name: string): Promise<Boolean>{
         return await this.commService.deleteCommNeo4j(name)
+    }
+
+    @Query(()=> [Community])
+    async getCommFriendNeo4j(@Args('email') email: string): Promise<Community[]>{
+        return await this.commService.getCommFriendNeo4j(email)
     }
 }

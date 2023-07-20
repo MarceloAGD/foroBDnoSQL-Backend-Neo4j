@@ -66,4 +66,31 @@ export class Neo4jCommRepository {
      return !!query// Returns true if the query result is truthy (non-null).
   }
 
+  async getCommFriendsNeo4j(email: string): Promise<Community[]> {
+    const query = await this.queryRepository
+    .initQuery()
+    .raw(
+      `MATCH (user:User {email: $email})-[:FRIEND]-(friend:User)
+      OPTIONAL MATCH (friend)-[:AUTHOR]->(comm:Community)
+      OPTIONAL MATCH (friend)-[:MEMBER]->(comm2:Community)
+      RETURN COLLECT(DISTINCT comm) + COLLECT(DISTINCT comm2) AS communities`,
+      {email}
+    )
+    .run();
+
+  if (query?.length > 0) {
+    return query.map((result: any) => {
+      const {
+        communities: { identity, properties },
+      } = result;
+      return {
+        id: identity,
+        ...properties,
+      };
+    });
+  }
+
+  return [];
+  }
+
 }
