@@ -21,6 +21,13 @@ export class Neo4jUserResolver {
     return await this.userService.addFriendNeo4j(emailUser1, emailUser2);
   }
 
+  @Mutation(()=> Boolean)
+  async removeFriendNeo4j(
+    @Args('emailUser1') emailUser1: string,
+    @Args('emailUser2') emailUser2: string,
+  ): Promise<Boolean> {
+    return await this.removeFriendNeo4j(emailUser1, emailUser2);
+  }
   @Query(()=> User)
   async getUserNeo4j(@Args('email') email: string): Promise<User> {
     return await this.userService.getUserNeo4j(email);   

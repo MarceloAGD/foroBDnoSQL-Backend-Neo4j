@@ -106,4 +106,20 @@ export class Neo4jUserRepository {
 
   return [];
   }
+
+  async removeFriendNeo4j(emailUser1: string, emailUser2: string): Promise<boolean> {
+    const query = await this.queryRepository
+      .initQuery()
+      .raw(
+        `MATCH (user1:User {email: "${emailUser1}"})-[friendship:FRIEND]-(user2:User {email: "${emailUser2}"})
+        DELETE friendship
+        WITH user1, user2
+        MATCH (user2)-[friendship:FRIEND]-(user1)
+        DELETE friendship
+        RETURN user1, user2`,
+      )
+      .run();
+  
+    return !!query; // Returns true if the query succeeds.
+  }
 }

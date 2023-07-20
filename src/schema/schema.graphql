@@ -18,7 +18,8 @@ input PostInput{
 input CommInput{
     name: String!
     author: String
-    tag: [TagInput]
+    description: String
+    tag: [String!]
 }
 
 input TagInput{
@@ -49,6 +50,7 @@ type Post {
 type Community{
     id: Int!
     name: String!
+    description: String
 }
 
 type Mutation{
@@ -61,7 +63,8 @@ type Mutation{
     addLikePostNeo4j(postId: String!, email: String!): Post!
     addDislikePostNeo4j(postId: String!, email: String!): Post!
     deletePostNeo4j(postId: String!): Boolean!
-    delteCommNeo4j(name: String!): Boolean!
+    deleteCommNeo4j(name: String!): Boolean!
+    removeFriendNeo4j(emailUser1: String!, emailUser2: String!): Boolean!
 }
 
 type Query{

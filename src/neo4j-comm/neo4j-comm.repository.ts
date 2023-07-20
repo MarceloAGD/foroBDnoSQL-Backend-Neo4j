@@ -7,16 +7,16 @@ export class Neo4jCommRepository {
   constructor(private readonly queryRepository: QueryRepository) {}
 
   async createCommNeo4j(commInput: CommInput): Promise<Community>{
-    const { name, author, tag } = commInput;
+    const { name, author, description, tag } = commInput;
   
     const query = await this.queryRepository
       .initQuery()
       .raw(
         `
-        MERGE (comm:Community {name: "${name}"})
+        MERGE (comm:Community {name: "${name}", description: "${description}"})
         WITH comm
         UNWIND $tags AS tagObj
-        MERGE (t:Tag {name: tagObj.name})
+        MERGE (t:Tag {name: tagObj})
         MERGE (comm)-[:HAS_TAG]->(t)
         MERGE (t)-[:TAGGED_COMM]->(comm)
         WITH comm
@@ -68,29 +68,30 @@ export class Neo4jCommRepository {
 
   async getCommFriendsNeo4j(email: string): Promise<Community[]> {
     const query = await this.queryRepository
-    .initQuery()
-    .raw(
-      `MATCH (user:User {email: $email})-[:FRIEND]-(friend:User)
-      OPTIONAL MATCH (friend)-[:AUTHOR]->(comm:Community)
-      OPTIONAL MATCH (friend)-[:MEMBER]->(comm2:Community)
-      RETURN COLLECT(DISTINCT comm) + COLLECT(DISTINCT comm2) AS communities`,
-      {email}
-    )
-    .run();
-
-  if (query?.length > 0) {
-    return query.map((result: any) => {
-      const {
-        communities: { identity, properties },
-      } = result;
-      return {
-        id: identity,
-        ...properties,
-      };
-    });
-  }
-
-  return [];
+      .initQuery()
+      .raw(
+        `MATCH (user:User {email: $email})-[:FRIEND]-(friend:User)
+        OPTIONAL MATCH (friend)-[:AUTHOR]->(comm:Community)
+        OPTIONAL MATCH (friend)-[:MEMBER]->(comm2:Community)
+        RETURN COLLECT(DISTINCT comm) + COLLECT(DISTINCT comm2) AS communities`,
+        { email }
+      )
+      .run();
+  
+    if (query?.length > 0) {
+      return query[0].communities.map((community: any) => {
+        const {
+          identity,
+          properties
+        } = community;
+        return {
+          id: identity,
+          ...properties,
+        };
+      });
+    }
+  
+    return [];
   }
 
 }

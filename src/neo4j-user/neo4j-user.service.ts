@@ -21,4 +21,8 @@ export class Neo4jUserService {
     async addFriendNeo4j(emailUser1: string, emailUser2: string): Promise<boolean>{
         return await this.userRepository.addFriend(emailUser1, emailUser2);
     }
+
+    async removeFriendNeo4j(emailUser1: string, emailUser2: string): Promise<boolean>{
+        return await this.userRepository.removeFriendNeo4j(emailUser1, emailUser2);
+    }
 }

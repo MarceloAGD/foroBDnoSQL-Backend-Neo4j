@@ -28,7 +28,8 @@ export class PostInput {
 export class CommInput {
     name: string;
     author?: Nullable<string>;
-    tag?: Nullable<Nullable<TagInput>[]>;
+    description?: Nullable<string>;
+    tag?: Nullable<string[]>;
 }
 
 export class TagInput {
@@ -59,6 +60,7 @@ export class Post {
 export class Community {
     id: number;
     name: string;
+    description?: Nullable<string>;
 }
 
 export abstract class IMutation {
@@ -80,7 +82,9 @@ export abstract class IMutation {
 
     abstract deletePostNeo4j(postId: string): boolean | Promise<boolean>;
 
-    abstract delteCommNeo4j(name: string): boolean | Promise<boolean>;
+    abstract deleteCommNeo4j(name: string): boolean | Promise<boolean>;
+
+    abstract removeFriendNeo4j(emailUser1: string, emailUser2: string): boolean | Promise<boolean>;
 }
 
 export abstract class IQuery {
