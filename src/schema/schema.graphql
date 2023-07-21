@@ -72,4 +72,5 @@ type Query{
     getFriendsNeo4j(email: String!): [User!]!
     getPostSameTagNeo4j(postId: String!): [Post!]!
     getCommFriendNeo4j(email: String!): [Community!]!
+    getRecommendedPostNeo4j(email: String!): [Post!]!
 }

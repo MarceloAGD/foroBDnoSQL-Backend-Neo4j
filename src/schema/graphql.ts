@@ -95,6 +95,8 @@ export abstract class IQuery {
     abstract getPostSameTagNeo4j(postId: string): Post[] | Promise<Post[]>;
 
     abstract getCommFriendNeo4j(email: string): Community[] | Promise<Community[]>;
+
+    abstract getRecommendedPostNeo4j(email: string): Post[] | Promise<Post[]>;
 }
 
 type Nullable<T> = T | null;

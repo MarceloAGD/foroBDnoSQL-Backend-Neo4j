@@ -30,4 +30,9 @@ export class Neo4jPostResolver {
     async getPostSameTagNeo4j(@Args('postId') postId: string): Promise<Post[]>{
         return await this.postService.getPostSameTagNeo4j(postId);
     }
+
+    @Query(()=> [Post])
+    async getRecommendedPostNeo4j(@Args('email') email: string): Promise<Post[]>{
+        return await this.postService.getRecommendedPostNeo4j(email);
+    }
 }

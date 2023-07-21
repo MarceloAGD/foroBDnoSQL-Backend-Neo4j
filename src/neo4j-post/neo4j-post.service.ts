@@ -33,4 +33,8 @@ export class Neo4jPostService {
     async getPostSameTagNeo4j(postId: string): Promise<Post[]>{
         return await this.postRepository.getPostSameTagsNeo4j(postId);
     }
+
+    async getRecommendedPostNeo4j(email: string): Promise<Post[]>{
+        return await this.postRepository.getRecommendedPostsNeo4j(email);
+    }
 }

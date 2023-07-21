@@ -240,6 +240,34 @@ export class Neo4jPostRepository {
   
     return [];
   }
+
+  async getRecommendedPostsNeo4j(email: string): Promise<Post[]> {
+    const query = await this.queryRepository
+      .initQuery()
+      .raw(
+        `
+        MATCH (user:User {email: "${email}"})-[:LIKED]->(likedPost:Post)-[:HAS_TAG]->(tag:Tag)<-[:HAS_TAG]-(recommendedPost:Post)
+        WHERE NOT (user)-[:LIKED]->(recommendedPost)
+        RETURN recommendedPost
+        `,
+      )
+      .run();
+  
+    if (query?.length > 0) {
+      const recommendedPosts = query.map((record) => {
+        const {
+          recommendedPost: { identity, properties },
+        } = record;
+        return {
+          id: identity,
+          ...properties,
+        };
+      });
+      return recommendedPosts;
+    }
+  
+    return [];
+  }
   
 }
 
