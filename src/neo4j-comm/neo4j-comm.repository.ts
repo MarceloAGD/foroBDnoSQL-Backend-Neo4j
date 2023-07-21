@@ -72,8 +72,7 @@ export class Neo4jCommRepository {
       .raw(
         `MATCH (user:User {email: $email})-[:FRIEND]-(friend:User)
         OPTIONAL MATCH (friend)-[:AUTHOR]->(comm:Community)
-        OPTIONAL MATCH (friend)-[:MEMBER]->(comm2:Community)
-        RETURN COLLECT(DISTINCT comm) + COLLECT(DISTINCT comm2) AS communities`,
+        RETURN COLLECT(DISTINCT comm) AS communities`,
         { email }
       )
       .run();
